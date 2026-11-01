@@ -1,4 +1,4 @@
-// <copyright file="DevToolsJsonOptions.cs" company="Selenium Committers">
+// <copyright file="DevToolsRuntimeJsonSerializerContext.cs" company="Selenium Committers">
 // Licensed to the Software Freedom Conservancy (SFC) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information
@@ -17,17 +17,13 @@
 // under the License.
 // </copyright>
 
-using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OpenQA.Selenium.DevTools.Json;
 
-internal static class DevToolsJsonOptions
-{
-    public static JsonSerializerOptions Default { get; } = new JsonSerializerOptions()
-    {
-        Converters =
-        {
-            new StringConverter(),
-        }
-    };
-}
+[JsonSerializable(typeof(global::OpenQA.Selenium.DevTools.DevToolsCommandData))]
+[JsonSerializable(typeof(global::OpenQA.Selenium.DevTools.DevToolsVersionInfo))]
+#pragma warning disable CS3016
+[JsonSourceGenerationOptions(Converters = [typeof(StringConverter)])]
+#pragma warning restore CS3016
+internal partial class DevToolsRuntimeJsonSerializerContext : JsonSerializerContext;
